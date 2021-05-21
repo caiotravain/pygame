@@ -13,16 +13,16 @@ stick_largura = 30
 stick_altura = 60
 # ----- Inicia assets
 background1 = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
-stick_img = pygame.image.load('pygame/assets/img/stick.png').convert_alpha()
+stick_img = pygame.image.load('pygame/assets/img/stick_branco.png').convert_alpha()
 stick_img = pygame.transform.scale(stick_img, (stick_largura, stick_altura))
 class stick(pygame.sprite.Sprite):
     def __init__(self,img):
         pygame.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.x = (0)
-        self.rect.y = (20)
-        self.speedx = (3)
+        self.rect.x = (200)
+        self.rect.y = (215)
+        self.speedx = (1.5)
         self.speedy = (0)
 
     def update(self):
@@ -30,10 +30,10 @@ class stick(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
-        if self.rect.x >= (WIDTH - stick_largura):
-            self.speedx = (-3)            
-        if self.rect.x <= (0):
-            self.speedx = (3)
+        if self.rect.x >= (450):
+            self.speedx = (-1)            
+        if self.rect.x <= (150):
+            self.speedx = (1.5)
 
 #Criando Sticks
 stick1 = stick(stick_img)
