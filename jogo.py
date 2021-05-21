@@ -25,12 +25,16 @@ class stick(pygame.sprite.Sprite):
         self.speedy = (0)
 
     def update(self):
-        # Atualizando a posição do meteoro
+        # Atualizando a posição do stick
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        # Se o meteoro passar do final da tela, volta para cima e sorteia
 
-#Criando Stciks
+        if self.rect.x >= (WIDTH - stick_largura):
+            self.speedx = (-3)            
+        if self.rect.x <= (0):
+            self.speedx = (3)
+
+#Criando Sticks
 stick1 = stick(stick_img)
 #Loop principal
 clock = pygame.time.Clock()
