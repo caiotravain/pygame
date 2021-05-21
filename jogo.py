@@ -5,13 +5,14 @@ import time
 pygame.init()
 
 # ----- Gera tela principal
-WIDTH = 480
-HEIGHT = 600
+WIDTH = 960
+HEIGHT = 540
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Stick')
-stick_largura = 50
-stick_altura = 100
+stick_largura = 30
+stick_altura = 60
 # ----- Inicia assets
+background1 = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
 stick_img = pygame.image.load('pygame/assets/img/stick.png').convert_alpha()
 stick_img = pygame.transform.scale(stick_img, (stick_largura, stick_altura))
 class stick(pygame.sprite.Sprite):
@@ -53,6 +54,7 @@ while game:
     stick1.update()
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
+    window.blit(background1, (0,0))
     window.blit(stick1.image, stick1.rect)
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
