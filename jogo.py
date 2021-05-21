@@ -34,7 +34,7 @@ class stick(pygame.sprite.Sprite):
 stick1 = stick(stick_img)
 #Loop principal
 clock = pygame.time.Clock()
-FPS = 60
+FPS = 30
 game = True
 while game:
     clock.tick(FPS)
