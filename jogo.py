@@ -46,7 +46,7 @@ while game:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_c:
                 game=False
-        stick1.update()
+    stick1.update()
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(stick1.image, stick1.rect)
