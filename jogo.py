@@ -41,6 +41,7 @@ class stick(pygame.sprite.Sprite):
 #Criando Sticks
 stick1 = stick(stick_img, 200, 215)
 stick2 = stick(stick_img, 0, 128)
+stick3 = stick(stick_img,850,160)
 #Loop principal
 clock = pygame.time.Clock()
 FPS = 30
@@ -57,11 +58,13 @@ while game:
                 game=False
     stick1.update(150, 450)
     stick2.update(0, 110)
+    stick3.update(850,960 - stick_largura)
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(background1, (0,0))
     window.blit(stick1.image, stick1.rect)
     window.blit(stick2.image, stick2.rect)
+    window.blit(stick3.image,stick3.rect)
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
 
