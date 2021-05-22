@@ -9,11 +9,11 @@ pygame.init()
 WIDTH = 960
 HEIGHT = 540
 window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Stick')
+pygame.display.set_caption('Mate o Stick')
 stick_largura = 30
 stick_altura = 60
-mira_largura = 200
-mira_altura = 200
+mira_largura = 100
+mira_altura = 100
 
 # ----- Inicia assets
 background1 = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
@@ -91,8 +91,3 @@ while game:
 
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
-
-
-
-# self.rect.x = (200)
-# self.rect.y = (215)
