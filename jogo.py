@@ -19,6 +19,8 @@ mira_altura = 120
 background = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
 background2 = pygame.image.load('pygame/assets/img/fase2.jpg').convert_alpha()
 background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
+ganhou = pygame.image.load('pygame/assets/img/ganhou.png').convert_alpha()
+ganhou = pygame.transform.scale(ganhou, (WIDTH, HEIGHT))
 stick_img = pygame.image.load('pygame/assets/img/stick_branco.png').convert_alpha()
 mira = pygame.image.load('pygame/assets/img/mira.png').convert_alpha()
 stick_img = pygame.transform.scale(stick_img, (stick_largura, stick_altura))
@@ -146,7 +148,7 @@ while game:
     mira1.update(mira_X,mira_Y)
     bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
-    window.fill((255, 255, 255))  # Preenche com a cor branca
+    window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))
     if nivel == 1:
         window.blit(stick1.image, stick1.rect)
@@ -164,7 +166,8 @@ while game:
         
     if abatido ==3:
         nivel = 2
-    
+    if abatido == 8:
+        background = ganhou
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
 
