@@ -12,8 +12,8 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Mate o Stick')
 stick_largura = 30
 stick_altura = 60
-mira_largura = 100
-mira_altura = 100
+mira_largura = 120
+mira_altura = 120
 
 # ----- Inicia assets
 background1 = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
@@ -81,9 +81,9 @@ while game:
     window.blit(stick3.image,stick3.rect)
 
     mousePos = pygame.mouse.get_pos()
-    mira_X = pygame.mouse.get_pos()[0] - 50
-    mira_Y = pygame.mouse.get_pos()[1] - 50
-    mira_jogo = window.blit(mira_img, (mira_X, mira_Y))
+    mira_X = pygame.mouse.get_pos()[0] -60
+    mira_Y = pygame.mouse.get_pos()[1] - 60
+    window.blit(mira_img, (mira_X, mira_Y))
 
     
     # ----- Atualiza estado do jogo
