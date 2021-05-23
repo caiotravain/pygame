@@ -16,7 +16,9 @@ mira_largura = 120
 mira_altura = 120
 
 # ----- Inicia assets
-background1 = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
+background = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
+background2 = pygame.image.load('pygame/assets/img/fase2.jpg').convert_alpha()
+background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
 stick_img = pygame.image.load('pygame/assets/img/stick_branco.png').convert_alpha()
 mira = pygame.image.load('pygame/assets/img/mira.png').convert_alpha()
 stick_img = pygame.transform.scale(stick_img, (stick_largura, stick_altura))
@@ -40,19 +42,13 @@ class stick(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         if a ==2 :
             self.rect.x = 10000
+            self.speedx = 0
         if self.rect.x >= x_max:
             self.speedx = (-1) 
             self.image = stick_inv           
         if self.rect.x <= x_min:
             self.speedx = (1.5)
             self.image = stick_img
-class abate (pygame.sprite.Sprite):
-    def __init__(self, img, center):
-        # Construtor da classe mãe (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.center = center
         # Armazena a animação de explosão
 class mira(pygame.sprite.Sprite):
     def __init__(self, img, x, y):
@@ -83,6 +79,9 @@ class bolinha(pygame.sprite.Sprite):
 stick1 = stick(stick_img, 200, 215)
 stick2 = stick(stick_img, 0, 128)
 stick3 = stick(stick_img,850,160)
+stick4 = stick(stick_img,850,160)
+stick5 = stick(stick_img,850,160)
+stick6 =stick(stick_img,850,160)
 mira1 = mira(mira_img,0,0)
 bolinha1 = bolinha(bolinha_img,0,0)
 all_sticks = pygame.sprite.Group()
@@ -92,7 +91,7 @@ groups['all_sticks'] = all_sticks
 clock = pygame.time.Clock()
 FPS = 30
 game = True
-
+abatido =0
 while game:
     clock.tick(FPS)
     # mx, my = pygame.mouse.get_pos()
@@ -110,13 +109,16 @@ while game:
             hit_stick_1 =pygame.sprite.collide_rect(bolinha1, stick1)
             if hit_stick_1 == 1:
                 stick1.update(0,0,2)
+                abatido += 1
             hit_stick_2 =pygame.sprite.collide_rect(bolinha1, stick2)
             if hit_stick_2 == 1:
                 stick2.update(0,0,2)
+                abatido +=1
             hit_stick_3 =pygame.sprite.collide_rect(bolinha1, stick3)
             if hit_stick_3 == 1:
+                abatido +=1
                 stick3.update(0,0,2)
-        
+
         
         
     mousePos = pygame.mouse.get_pos()
@@ -131,13 +133,14 @@ while game:
     bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
-    window.blit(background1, (0,0))
+    window.blit(background, (0,0))
     window.blit(stick1.image, stick1.rect)
     window.blit(stick2.image, stick2.rect)
     window.blit(stick3.image,stick3.rect)
     window.blit(mira_img, (mira_X, mira_Y))
     window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
-
+    if abatido ==3:
+        background = background2
     
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
