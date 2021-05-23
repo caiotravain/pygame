@@ -67,7 +67,7 @@ while game:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_c:
                 game=False
-
+    pygame.mouse.set_visible(False)
     
     stick1.update(150, 450)
     stick2.update(0, 110)
