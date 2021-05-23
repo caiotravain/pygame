@@ -79,9 +79,11 @@ class bolinha(pygame.sprite.Sprite):
 stick1 = stick(stick_img, 200, 215)
 stick2 = stick(stick_img, 0, 128)
 stick3 = stick(stick_img,850,160)
-stick4 = stick(stick_img,850,160)
-stick5 = stick(stick_img,850,160)
-stick6 =stick(stick_img,850,160)
+stick4 = stick(stick_img,280,43)
+stick5 = stick(stick_img,540,246)
+stick6 =stick(stick_img,740,130)
+stick7 =stick(stick_img,100,282)
+stick8 =stick(stick_img,360,192)
 mira1 = mira(mira_img,0,0)
 bolinha1 = bolinha(bolinha_img,0,0)
 all_sticks = pygame.sprite.Group()
@@ -91,7 +93,8 @@ groups['all_sticks'] = all_sticks
 clock = pygame.time.Clock()
 FPS = 30
 game = True
-abatido =0
+abatido = 0
+nivel = 2
 while game:
     clock.tick(FPS)
     # mx, my = pygame.mouse.get_pos()
@@ -129,18 +132,32 @@ while game:
     stick1.update(150, 450,3)
     stick2.update(0, 110,3)
     stick3.update(850,960 - stick_largura,3)
+    stick4.update(170,280,3)
+    stick5.update(445,560,3)
+    stick6.update(675,795,3)
+    stick7.update(75,150,3)
+    stick8.update(310,360,3)
     mira1.update(mira_X,mira_Y)
     bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(background, (0,0))
-    window.blit(stick1.image, stick1.rect)
-    window.blit(stick2.image, stick2.rect)
-    window.blit(stick3.image,stick3.rect)
+    if nivel == 1:
+        window.blit(stick1.image, stick1.rect)
+        window.blit(stick2.image, stick2.rect)
+        window.blit(stick3.image,stick3.rect)
     window.blit(mira_img, (mira_X, mira_Y))
     window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
-    if abatido ==3:
+    if nivel == 2:
         background = background2
+        window.blit(stick4.image, stick4.rect)
+        window.blit(stick5.image, stick5.rect)
+        window.blit(stick6.image,stick6.rect)
+        window.blit(stick7.image, stick7.rect)
+        window.blit(stick8.image, stick8.rect)
+        
+    if abatido ==3:
+        nivel = 2
     
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
