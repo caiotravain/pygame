@@ -19,6 +19,8 @@ mira_altura = 120
 background = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
 background2 = pygame.image.load('pygame/assets/img/fase2.jpg').convert_alpha()
 background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
+perdeu = pygame.image.load('pygame/assets/img/perdeu.png').convert_alpha()
+perdeu = pygame.transform.scale(perdeu, (WIDTH, HEIGHT))
 ganhou = pygame.image.load('pygame/assets/img/ganhou.png').convert_alpha()
 ganhou = pygame.transform.scale(ganhou, (WIDTH, HEIGHT))
 stick_img = pygame.image.load('pygame/assets/img/stick_branco.png').convert_alpha()
@@ -28,6 +30,9 @@ mira_img = pygame.transform.scale(mira, (mira_largura, mira_altura))
 stick_inv = pygame.transform.flip(stick_img, True, False)
 bolinha = pygame.image.load('pygame/assets/img/bolinha.png').convert_alpha()
 bolinha_img = pygame.transform.scale(bolinha, (5, 5))
+bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
+bala_img = pygame.transform.scale(bala_img, (150,100 ))
+fonte = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 40)
 class stick(pygame.sprite.Sprite):
     def __init__(self,img, x, y,nivel):
         pygame.sprite.Sprite.__init__(self)
@@ -90,8 +95,11 @@ class bolinha(pygame.sprite.Sprite):
         # Atualizando a posição do stick
         self.rect.x = x
         self.rect.y = y
+        
 
 #Criando Sticks
+balas = 3
+text = fonte.render(str(balas), True, (255, 255, 255))
 stick1 = stick(stick_img, 200, 215,1)
 stick2 = stick(stick_img, 0, 128,1)
 stick3 = stick(stick_img,850,160,1)
@@ -114,6 +122,7 @@ FPS = 30
 game = True
 abatido = 0
 nivel = 1
+t = 0
 while game:
     clock.tick(FPS)
     # mx, my = pygame.mouse.get_pos()
@@ -128,13 +137,17 @@ while game:
                 game=False
         pygame.mouse.set_visible(False)
         if event.type == pygame.MOUSEBUTTONDOWN:
+            balas -=1
             for a in lista_stick:
                 hit = pygame.sprite.collide_rect(bolinha1,a)
                 if hit == 1:
                     a.update(0,0,2)
                     abatido += 1
-    if abatido ==3:
-        nivel = 2    
+        text = fonte.render(str(balas), True, (255, 255, 255))
+    if abatido ==3 and t==0:
+        nivel = 2
+        balas = 5 
+        t+=1
     mousePos = pygame.mouse.get_pos()
     mouse_x_b = pygame.mouse.get_pos()[0]-2.5
     mouse_y_b= pygame.mouse.get_pos()[1]-2.5
@@ -155,10 +168,12 @@ while game:
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))
+    window.blit(bala_img, (20,455))
     if nivel == 1:
         window.blit(stick1.image, stick1.rect)
         window.blit(stick2.image, stick2.rect)
         window.blit(stick3.image,stick3.rect)
+        window.blit(text, (55, 482))
     window.blit(mira_img, (mira_X, mira_Y))
     window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
     if nivel == 2:
@@ -168,8 +183,15 @@ while game:
         window.blit(stick6.image,stick6.rect)
         window.blit(stick7.image, stick7.rect)
         window.blit(stick8.image, stick8.rect)
+        window.blit(text, (55, 482))
     if abatido == 8:
+        balas= 1
         background = ganhou
+        window.blit(background, (0,0))
+    if balas ==0:
+        background = mira_img
+        background = perdeu
+        window.blit(background, (0,0))
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
 
