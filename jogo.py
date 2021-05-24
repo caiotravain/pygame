@@ -2,6 +2,7 @@ import pygame
 import random
 import time
 from pygame.locals import *
+from pyrsistent import b
 
 pygame.init()
 
@@ -27,7 +28,7 @@ background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
 background3 = pygame.image.load('pygame/assets/img/fase3.jpg').convert_alpha()
 background3 = pygame.transform.scale(background3, (WIDTH, HEIGHT))
 Sobre = pygame.image.load('pygame/assets/img/sobreposicao.png').convert_alpha()
-sobre = pygame.transform.scale(Sobre, (WIDTH, HEIGHT))
+sobre = pygame.transform.scale(Sobre, (385, 430))
 j1 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
 j1 = pygame.transform.scale(j1, (65, 60))
 j2 = pygame.image.load('pygame/assets/img/janela2.png').convert_alpha()
@@ -97,6 +98,16 @@ class stick(pygame.sprite.Sprite):
             if self.rect.x <= x_min:
                 self.speedx = (3)
                 self.image = stick_img
+        if nivel == 3:
+            if a == 2:
+                self.rect.x = 10000
+                self.speedx = 0
+            if self.rect.x >= x_max:
+                self.speedx = (-2.5) 
+                self.image = stick_inv           
+            if self.rect.x <= x_min:
+                self.speedx = (3)
+                self.image = stick_img
 
 class mira(pygame.sprite.Sprite):
     def __init__(self, img, x, y):
@@ -135,18 +146,18 @@ stick5 = stick(stick_img,540,246,2)
 stick6 =stick(stick_img,740,130,2)
 stick7 =stick(stick_img,100,282,2)
 stick8 =stick(stick_img,360,192,2)
-stick9 = stick(stick_img, 200, 215,1)
-stick10 = stick(stick_img, 0, 128,1)
-stick11 = stick(stick_img,850,160,1)
-stick12 = stick(stick_img,280,43,2)
-stick13 = stick(stick_img,540,246,2)
-stick14 =stick(stick_img,740,130,2)
+stick9 = stick(stick_img, 200, 185,2)
+stick10 = stick(stick_img, 700, 185,2)
+stick11 = stick(stick_img, 200, 316,2)
+stick12 = stick(stick_img, 700 ,316,2)
+stick13 = stick(stick_img, 200, 450,2)
+stick14 =stick(stick_img, 700, 450,2)
 mira1 = mira(mira_img,0,0)
 bolinha1 = bolinha(bolinha_img,0,0)
 all_sticks = pygame.sprite.Group()
 groups = {}
 groups['all_sticks'] = all_sticks
-lista_stick = [stick1,stick2,stick3,stick4,stick5,stick6,stick7,stick8]
+lista_stick = [stick1,stick2,stick3,stick4,stick5,stick6,stick7,stick8,stick9,stick10,stick11,stick12,stick13,stick14]
 for stick_ in lista_stick:
     all_sticks.add(stick_)
 #Loop principal
@@ -154,8 +165,9 @@ clock = pygame.time.Clock()
 FPS = 30
 game = True
 abatido = 0
-nivel = 3
+nivel = 1
 t = 0
+b = 0
 start =False
 while game:
     clock.tick(FPS)
@@ -184,7 +196,11 @@ while game:
     if abatido ==3 and t==0:
         nivel = 2
         balas = 5 
-        t+=1
+        t += 1
+    if abatido == 8 and b==0:
+        nivel = 3
+        balas = 6 
+        b += 1
     mousePos = pygame.mouse.get_pos()
     mouse_x_b = pygame.mouse.get_pos()[0]-2.5
     mouse_y_b= pygame.mouse.get_pos()[1]-2.5
@@ -201,19 +217,19 @@ while game:
         stick7.update(75,150,3)
         stick8.update(310,360,3)
     if nivel == 3:
-        stick9.update(170,280,3)
-        stick10.update(445,560,3)
-        stick11.update(675,795,3)
-        stick12.update(75,150,3)
-        stick13.update(310,360,3)
-        stick14.update(310,360,3)
+        stick9.update(180,725,3)
+        stick10.update(180,725,3)
+        stick11.update(180,725,3)
+        stick12.update(180,725,3)
+        stick13.update(180,725,3)
+        stick14.update(180,725,3)
     mira1.update(mira_X,mira_Y)
     bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
     window.fill((0, 0, 0))
     window.blit(inicial,(0,0))
     window.blit(texto, ((WIDTH/4), 300))
-    start = True
+
     if start:
           # Preenche com a cor branca
         window.blit(background, (0,0))
@@ -250,14 +266,14 @@ while game:
             window.blit(stick12.image,stick12.rect)
             window.blit(stick13.image, stick13.rect)
             window.blit(stick14.image, stick14.rect)
-            window.blit(sobre, (0,0))
+            window.blit(sobre, (280, 109))
             window.blit(bala_img, (20,455))
             window.blit(text, (55, 482))
         window.blit(mira_img, (mira_X, mira_Y))
         window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
         
-        if abatido == 8:
-            balas= 1
+        if abatido == 14:
+            balas = 1
             background = ganhou
             window.blit(background, (-20,0))
         if balas <= 0:
