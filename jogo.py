@@ -106,6 +106,8 @@ all_sticks = pygame.sprite.Group()
 groups = {}
 groups['all_sticks'] = all_sticks
 lista_stick = [stick1,stick2,stick3,stick4,stick5,stick6,stick7,stick8]
+for stick_ in lista_stick:
+    all_sticks.add(stick_)
 #Loop principal
 clock = pygame.time.Clock()
 FPS = 30
@@ -166,8 +168,6 @@ while game:
         window.blit(stick6.image,stick6.rect)
         window.blit(stick7.image, stick7.rect)
         window.blit(stick8.image, stick8.rect)
-        
-
     if abatido == 8:
         background = ganhou
     # ----- Atualiza estado do jogo
