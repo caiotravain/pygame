@@ -182,7 +182,7 @@ while game:
                 pygame.mouse.set_visible(True)
         if event.type == pygame.MOUSEBUTTONDOWN:
             pygame.mouse.set_visible(False)
-            if start:
+            if start == True:
                 balas -=1
                 for a in lista_stick:
                     hit = pygame.sprite.collide_rect(bolinha1,a)
