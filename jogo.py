@@ -135,6 +135,12 @@ stick5 = stick(stick_img,540,246,2)
 stick6 =stick(stick_img,740,130,2)
 stick7 =stick(stick_img,100,282,2)
 stick8 =stick(stick_img,360,192,2)
+stick9 = stick(stick_img, 200, 215,1)
+stick10 = stick(stick_img, 0, 128,1)
+stick11 = stick(stick_img,850,160,1)
+stick12 = stick(stick_img,280,43,2)
+stick13 = stick(stick_img,540,246,2)
+stick14 =stick(stick_img,740,130,2)
 mira1 = mira(mira_img,0,0)
 bolinha1 = bolinha(bolinha_img,0,0)
 all_sticks = pygame.sprite.Group()
@@ -153,8 +159,7 @@ t = 0
 start =False
 while game:
     clock.tick(FPS)
-    # mx, my = pygame.mouse.get_pos()
-    
+
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
@@ -195,6 +200,13 @@ while game:
         stick6.update(675,795,3)
         stick7.update(75,150,3)
         stick8.update(310,360,3)
+    if nivel == 3:
+        stick9.update(170,280,3)
+        stick10.update(445,560,3)
+        stick11.update(675,795,3)
+        stick12.update(75,150,3)
+        stick13.update(310,360,3)
+        stick14.update(310,360,3)
     mira1.update(mira_X,mira_Y)
     bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
@@ -205,11 +217,12 @@ while game:
     if start:
           # Preenche com a cor branca
         window.blit(background, (0,0))
-        window.blit(bala_img, (20,455))
+        
         if nivel == 1:
             window.blit(stick1.image, stick1.rect)
             window.blit(stick2.image, stick2.rect)
             window.blit(stick3.image,stick3.rect)
+            window.blit(bala_img, (20,455))
             window.blit(text, (55, 482))
         if nivel == 2:
             background = background2
@@ -218,6 +231,7 @@ while game:
             window.blit(stick6.image,stick6.rect)
             window.blit(stick7.image, stick7.rect)
             window.blit(stick8.image, stick8.rect)
+            window.blit(bala_img, (20,455))
             window.blit(text, (55, 482))
         if nivel == 3:
             background = background3
@@ -230,11 +244,18 @@ while game:
             window.blit(j7, (530,318))
             window.blit(j8, (458,185))
             window.blit(j9, (347,452))
-            window.blit(stick4.image, (530,450))
+            window.blit(stick9.image, stick9.rect)
+            window.blit(stick10.image, stick10.rect)
+            window.blit(stick11.image, stick11.rect)
+            window.blit(stick12.image,stick12.rect)
+            window.blit(stick13.image, stick13.rect)
+            window.blit(stick14.image, stick14.rect)
             window.blit(sobre, (0,0))
+            window.blit(bala_img, (20,455))
             window.blit(text, (55, 482))
         window.blit(mira_img, (mira_X, mira_Y))
         window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
+        
         if abatido == 8:
             balas= 1
             background = ganhou
