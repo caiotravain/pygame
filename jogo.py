@@ -16,9 +16,30 @@ mira_largura = 120
 mira_altura = 120
 
 # ----- Inicia assets
+inicial = pygame.image.load('pygame/assets/img/tela_inicial.jpg').convert_alpha()
+inicial = pygame.transform.scale(inicial, (WIDTH, HEIGHT))
+fonte = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 40)
+fonte2 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 20)
+texto = fonte2.render('Press Any Button to Start', True, (255, 255, 255))
 background = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
 background2 = pygame.image.load('pygame/assets/img/fase2.jpg').convert_alpha()
 background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
+background3 = pygame.image.load('pygame/assets/img/fase3.jpg').convert_alpha()
+background3 = pygame.transform.scale(background3, (WIDTH, HEIGHT))
+Sobre = pygame.image.load('pygame/assets/img/sobreposicao.png').convert_alpha()
+sobre = pygame.transform.scale(Sobre, (WIDTH, HEIGHT))
+j1 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
+j1 = pygame.transform.scale(j1, (65, 60))
+j2 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
+j2 = pygame.transform.scale(j1, (65, 60))
+j3 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
+j3 = pygame.transform.scale(j1, (65, 60))
+j4 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
+j4 = pygame.transform.scale(j1, (65, 60))
+j5 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
+j5 = pygame.transform.scale(j1, (65, 60))
+j6 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
+j6 = pygame.transform.scale(j1, (65, 60))
 perdeu = pygame.image.load('pygame/assets/img/perdeu.png').convert_alpha()
 perdeu = pygame.transform.scale(perdeu, (WIDTH, HEIGHT))
 ganhou = pygame.image.load('pygame/assets/img/ganhou.png').convert_alpha()
@@ -32,7 +53,7 @@ bolinha = pygame.image.load('pygame/assets/img/bolinha.png').convert_alpha()
 bolinha_img = pygame.transform.scale(bolinha, (5, 5))
 bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
 bala_img = pygame.transform.scale(bala_img, (150,100 ))
-fonte = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 40)
+
 class stick(pygame.sprite.Sprite):
     def __init__(self,img, x, y,nivel):
         pygame.sprite.Sprite.__init__(self)
@@ -121,8 +142,9 @@ clock = pygame.time.Clock()
 FPS = 30
 game = True
 abatido = 0
-nivel = 1
+nivel = 3
 t = 0
+start =False
 while game:
     clock.tick(FPS)
     # mx, my = pygame.mouse.get_pos()
@@ -133,16 +155,20 @@ while game:
         if event.type == pygame.QUIT:
             game = False
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_c:
-                game=False
-        pygame.mouse.set_visible(False)
+            if event.key == pygame.K_ESCAPE:
+                pygame.mouse.set_visible(True)
         if event.type == pygame.MOUSEBUTTONDOWN:
-            balas -=1
-            for a in lista_stick:
-                hit = pygame.sprite.collide_rect(bolinha1,a)
-                if hit == 1:
-                    a.update(0,0,2)
-                    abatido += 1
+            pygame.mouse.set_visible(False)
+            if start:
+                balas -=1
+                for a in lista_stick:
+                    hit = pygame.sprite.collide_rect(bolinha1,a)
+                    if hit == 1:
+                        a.update(0,0,2)
+                        abatido += 1
+        if event.type == KEYDOWN:
+            start =True
+            pygame.mouse.set_visible(False)
         text = fonte.render(str(balas), True, (255, 255, 255))
     if abatido ==3 and t==0:
         nivel = 2
@@ -166,32 +192,44 @@ while game:
     mira1.update(mira_X,mira_Y)
     bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
-    window.fill((0, 0, 0))  # Preenche com a cor branca
-    window.blit(background, (0,0))
-    window.blit(bala_img, (20,455))
-    if nivel == 1:
-        window.blit(stick1.image, stick1.rect)
-        window.blit(stick2.image, stick2.rect)
-        window.blit(stick3.image,stick3.rect)
-        window.blit(text, (55, 482))
-    window.blit(mira_img, (mira_X, mira_Y))
-    window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
-    if nivel == 2:
-        background = background2
-        window.blit(stick4.image, stick4.rect)
-        window.blit(stick5.image, stick5.rect)
-        window.blit(stick6.image,stick6.rect)
-        window.blit(stick7.image, stick7.rect)
-        window.blit(stick8.image, stick8.rect)
-        window.blit(text, (55, 482))
-    if abatido == 8:
-        balas= 1
-        background = ganhou
-        window.blit(background, (-20,0))
-    if balas <= 0:
-        background = mira_img
-        background = perdeu
+    window.fill((0, 0, 0))
+    window.blit(inicial,(0,0))
+    window.blit(texto, ((WIDTH/4), 300))
+    start = True
+    if start:
+          # Preenche com a cor branca
         window.blit(background, (0,0))
+        window.blit(bala_img, (20,455))
+        if nivel == 1:
+            window.blit(stick1.image, stick1.rect)
+            window.blit(stick2.image, stick2.rect)
+            window.blit(stick3.image,stick3.rect)
+            window.blit(text, (55, 482))
+        if nivel == 2:
+            background = background2
+            window.blit(stick4.image, stick4.rect)
+            window.blit(stick5.image, stick5.rect)
+            window.blit(stick6.image,stick6.rect)
+            window.blit(stick7.image, stick7.rect)
+            window.blit(stick8.image, stick8.rect)
+            window.blit(text, (55, 482))
+        if nivel == 3:
+            background = background3
+            window.blit(j1, (530,450))
+            window.blit(stick4.image, (530,450))
+            window.blit(sobre, (0,0))
+            window.blit(text, (55, 482))
+        window.blit(mira_img, (mira_X, mira_Y))
+        window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
+        if abatido == 8:
+            balas= 1
+            background = ganhou
+            window.blit(background, (-20,0))
+        if balas <= 0:
+            background = mira_img
+            background = perdeu
+            window.blit(background, (0,0))
+        
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
 
