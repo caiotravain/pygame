@@ -188,7 +188,7 @@ while game:
         balas= 1
         background = ganhou
         window.blit(background, (0,0))
-    if balas ==0:
+    if balas <= 0:
         background = mira_img
         background = perdeu
         window.blit(background, (0,0))
