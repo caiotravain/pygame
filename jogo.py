@@ -22,7 +22,7 @@ background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
 perdeu = pygame.image.load('pygame/assets/img/perdeu.png').convert_alpha()
 perdeu = pygame.transform.scale(perdeu, (WIDTH, HEIGHT))
 ganhou = pygame.image.load('pygame/assets/img/ganhou.png').convert_alpha()
-ganhou = pygame.transform.scale(ganhou, (WIDTH, HEIGHT))
+ganhou = pygame.transform.scale(ganhou, (WIDTH + 40, HEIGHT))
 stick_img = pygame.image.load('pygame/assets/img/stick_branco.png').convert_alpha()
 mira = pygame.image.load('pygame/assets/img/mira.png').convert_alpha()
 stick_img = pygame.transform.scale(stick_img, (stick_largura, stick_altura))
@@ -187,7 +187,7 @@ while game:
     if abatido == 8:
         balas= 1
         background = ganhou
-        window.blit(background, (0,0))
+        window.blit(background, (-20,0))
     if balas <= 0:
         background = mira_img
         background = perdeu
