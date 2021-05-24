@@ -131,20 +131,23 @@ while game:
                 if hit == 1:
                     a.update(0,0,2)
                     abatido += 1
-        
+    if abatido ==3:
+        nivel = 2    
     mousePos = pygame.mouse.get_pos()
     mouse_x_b = pygame.mouse.get_pos()[0]-2.5
     mouse_y_b= pygame.mouse.get_pos()[1]-2.5
     mira_X = pygame.mouse.get_pos()[0] -60
     mira_Y = pygame.mouse.get_pos()[1] - 60
-    stick1.update(150, 450,3)
-    stick2.update(0, 110,3)
-    stick3.update(850,960 - stick_largura,3)
-    stick4.update(170,280,3)
-    stick5.update(445,560,3)
-    stick6.update(675,795,3)
-    stick7.update(75,150,3)
-    stick8.update(310,360,3)
+    if nivel ==1:
+        stick1.update(150, 450,3)
+        stick2.update(0, 110,3)
+        stick3.update(850,960 - stick_largura,3)
+    if nivel==2:
+        stick4.update(170,280,3)
+        stick5.update(445,560,3)
+        stick6.update(675,795,3)
+        stick7.update(75,150,3)
+        stick8.update(310,360,3)
     mira1.update(mira_X,mira_Y)
     bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
@@ -164,8 +167,7 @@ while game:
         window.blit(stick7.image, stick7.rect)
         window.blit(stick8.image, stick8.rect)
         
-    if abatido ==3:
-        nivel = 2
+
     if abatido == 8:
         background = ganhou
     # ----- Atualiza estado do jogo
