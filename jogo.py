@@ -62,6 +62,8 @@ bolinha = pygame.image.load('pygame/assets/img/bolinha.png').convert_alpha()
 bolinha_img = pygame.transform.scale(bolinha, (10, 10))
 bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
 bala_img = pygame.transform.scale(bala_img, (150,100 ))
+sniper_img = pygame.image.load('pygame/assets/img/sniper(balista).png').convert_alpha()
+sniper_img = pygame.transform.scale(sniper_img, (300, 211))
 tiro_som = pygame.mixer.Sound('pygame/assets/sounds/tiro.mp3')
 perder_som = pygame.mixer.Sound('pygame/assets/sounds/derrota.mp3')
 pygame.mixer.Sound.set_volume(perder_som,0.3)
@@ -312,6 +314,8 @@ while game:
         if aparecer == True:
             window.blit(mira_img, (mira_X, mira_Y))
             window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
+        elif aparecer == False:
+            window.blit(sniper_img, ((WIDTH/2)+50, HEIGHT-211))
         
         if abatido == 14:
             win = True
