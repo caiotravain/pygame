@@ -192,13 +192,13 @@ while game:
             start =True
             pygame.mouse.set_visible(False)
         text = fonte.render(str(balas), True, (255, 255, 255))
-    if abatido <3:
+    if abatido < 3:
         nivel=1
-    if abatido ==3 and t==0:
+    elif abatido ==3 and t==0:
         nivel = 2
         balas = 5 
         t += 1
-    if abatido == 8 and b==0:
+    elif abatido == 8 and b==0:
         nivel = 3
         balas = 6 
         b += 1
