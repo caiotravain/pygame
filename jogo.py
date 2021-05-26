@@ -171,7 +171,6 @@ b = 0
 start =False
 while game:
     clock.tick(FPS)
-
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
@@ -193,6 +192,8 @@ while game:
             start =True
             pygame.mouse.set_visible(False)
         text = fonte.render(str(balas), True, (255, 255, 255))
+    if abatido <3:
+        nivel=1
     if abatido ==3 and t==0:
         nivel = 2
         balas = 5 
