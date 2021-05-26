@@ -3,6 +3,7 @@ import random
 import time
 from pygame.locals import *
 from pyrsistent import b
+from pygame import mixer
 
 pygame.init()
 
@@ -61,6 +62,13 @@ bolinha_img = pygame.transform.scale(bolinha, (5, 5))
 bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
 bala_img = pygame.transform.scale(bala_img, (150,100 ))
 tiro_som = pygame.mixer.Sound('pygame/assets/sounds/tiro.mp3')
+perder_som = pygame.mixer.Sound('pygame/assets/sounds/derrota.mp3')
+pygame.mixer.Sound.set_volume(perder_som,0.5)
+
+
+
+
+
 
 class stick(pygame.sprite.Sprite):
     def __init__(self,img, x, y,nivel):
@@ -164,7 +172,9 @@ abatido = 0
 nivel = 1
 t = 0
 b = 0
+i = 0
 start =False
+lose = False
 while game:
     clock.tick(FPS)
     if nivel ==1:
@@ -191,6 +201,10 @@ while game:
                     if hit == 1:
                         a.update(0,0,2)
                         abatido += 1
+        if lose == True and i == 0:
+            perder_som.play(0)
+            i += 1
+
         if event.type == KEYDOWN:
             start =True
             pygame.mouse.set_visible(False)
@@ -284,6 +298,7 @@ while game:
             background = mira_img
             background = perdeu
             pygame.mixer.Sound.stop(tiro_som)
+            lose = True
             window.blit(background, (0,0))
         
     # ----- Atualiza estado do jogo
