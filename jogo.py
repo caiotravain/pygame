@@ -4,6 +4,7 @@ import time
 from pygame.locals import *
 from pyrsistent import b
 from pygame import mixer
+from sqlalchemy import true
 
 pygame.init()
 
@@ -14,8 +15,8 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Mate o Stick')
 stick_largura = 30
 stick_altura = 60
-mira_largura = 120
-mira_altura = 120
+mira_largura = 2500
+mira_altura = 1500
 
 # ----- Inicia assets
 inicial = pygame.image.load('pygame/assets/img/tela_inicial.jpg').convert_alpha()
@@ -58,7 +59,7 @@ stick_img = pygame.transform.scale(stick_img, (stick_largura, stick_altura))
 mira_img = pygame.transform.scale(mira, (mira_largura, mira_altura))
 stick_inv = pygame.transform.flip(stick_img, True, False)
 bolinha = pygame.image.load('pygame/assets/img/bolinha.png').convert_alpha()
-bolinha_img = pygame.transform.scale(bolinha, (5, 5))
+bolinha_img = pygame.transform.scale(bolinha, (10, 10))
 bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
 bala_img = pygame.transform.scale(bala_img, (150,100 ))
 tiro_som = pygame.mixer.Sound('pygame/assets/sounds/tiro.mp3')
@@ -174,9 +175,10 @@ b = 0
 ja_tocou_perdeu = False
 ja_tocou_start = False
 ja_tocou_win = False
-start =False
+start = False
 lose = False
 win = False
+aparecer = False
 while game:
     clock.tick(FPS)
     if nivel ==1:
@@ -193,16 +195,24 @@ while game:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 pygame.mouse.set_visible(True)
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pygame.mouse.set_visible(False)
-            if start == True:
-                balas -=1
-                tiro_som.play()
-                for a in lista_stick:
-                    hit = pygame.sprite.collide_rect(bolinha1,a)
-                    if hit == 1:
-                        a.update(0,0,2)
-                        abatido += 1
+        if pygame.mouse.get_pressed()[0]:
+            if event.type == pygame.MOUSEBUTTONDOWN and aparecer == True:
+                pygame.mouse.set_visible(False)
+                if start == True:
+                    balas -=1
+                    tiro_som.play()
+                    for a in lista_stick:
+                        hit = pygame.sprite.collide_rect(bolinha1,a)
+                        if hit == 1:
+                            a.update(0,0,2)
+                            abatido += 1
+        if pygame.mouse.get_pressed()[2] and aparecer == False:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                aparecer = True
+        elif pygame.mouse.get_pressed()[2]:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                aparecer = False
+
         if lose == True and not ja_tocou_perdeu:
             perder_som.play(0)
             ja_tocou_perdeu = True
@@ -230,10 +240,10 @@ while game:
         balas = 6 
         b += 1
     mousePos = pygame.mouse.get_pos()
-    mouse_x_b = pygame.mouse.get_pos()[0]-2.5
-    mouse_y_b= pygame.mouse.get_pos()[1]-2.5
-    mira_X = pygame.mouse.get_pos()[0] -60
-    mira_Y = pygame.mouse.get_pos()[1] - 60
+    mouse_x_b = pygame.mouse.get_pos()[0]-5
+    mouse_y_b= pygame.mouse.get_pos()[1]-5
+    mira_X = pygame.mouse.get_pos()[0] - 1245
+    mira_Y = pygame.mouse.get_pos()[1] - 715
     if nivel ==1:
         stick1.update(150, 450,3)
         stick2.update(0, 110,3)
@@ -251,8 +261,9 @@ while game:
         stick12.update(180,725,3)
         stick13.update(180,725,3)
         stick14.update(180,725,3)
-    mira1.update(mira_X,mira_Y)
-    bolinha1.update(mouse_x_b,mouse_y_b)
+    if aparecer == True:
+        mira1.update(mira_X,mira_Y)
+        bolinha1.update(mouse_x_b,mouse_y_b)
     # ----- Gera saídas
     window.fill((0, 0, 0))
     window.blit(inicial,(0,0))
@@ -297,8 +308,10 @@ while game:
             window.blit(sobre, (280, 109))
             window.blit(bala_img, (20,455))
             window.blit(text, (55, 482))
-        window.blit(mira_img, (mira_X, mira_Y))
-        window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
+        
+        if aparecer == True:
+            window.blit(mira_img, (mira_X, mira_Y))
+            window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
         
         if abatido == 14:
             win = True
