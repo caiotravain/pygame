@@ -63,11 +63,9 @@ bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
 bala_img = pygame.transform.scale(bala_img, (150,100 ))
 tiro_som = pygame.mixer.Sound('pygame/assets/sounds/tiro.mp3')
 perder_som = pygame.mixer.Sound('pygame/assets/sounds/derrota.mp3')
-pygame.mixer.Sound.set_volume(perder_som,0.5)
-
-
-
-
+pygame.mixer.Sound.set_volume(perder_som,0.3)
+inicial_som = pygame.mixer.Sound('pygame/assets/sounds/start.mp3')
+pygame.mixer.Sound.set_volume(inicial_som,0.3)
 
 
 class stick(pygame.sprite.Sprite):
@@ -172,9 +170,11 @@ abatido = 0
 nivel = 1
 t = 0
 b = 0
-i = 0
+ja_tocou_perdeu = False
+ja_tocou_start = False
 start =False
 lose = False
+win = False
 while game:
     clock.tick(FPS)
     if nivel ==1:
@@ -201,9 +201,14 @@ while game:
                     if hit == 1:
                         a.update(0,0,2)
                         abatido += 1
-        if lose == True and i == 0:
+        if lose == True and not ja_tocou_perdeu:
             perder_som.play(0)
-            i += 1
+            ja_tocou_perdeu = True
+        if start == False and not ja_tocou_start:
+            inicial_som.play(0)
+            ja_tocou_start = True
+        if start == True and ja_tocou_start:
+            inicial_som.stop()
 
         if event.type == KEYDOWN:
             start =True
