@@ -60,7 +60,7 @@ bolinha = pygame.image.load('pygame/assets/img/bolinha.png').convert_alpha()
 bolinha_img = pygame.transform.scale(bolinha, (5, 5))
 bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
 bala_img = pygame.transform.scale(bala_img, (150,100 ))
-tiro_som = pygame.mixer.music.load('pygame/assets/sounds/tiro.mp3')
+tiro_som = pygame.mixer.Sound('pygame/assets/sounds/tiro.mp3')
 
 class stick(pygame.sprite.Sprite):
     def __init__(self,img, x, y,nivel):
@@ -185,7 +185,7 @@ while game:
             pygame.mouse.set_visible(False)
             if start == True:
                 balas -=1
-                pygame.mixer.music.play(0)
+                tiro_som.play()
                 for a in lista_stick:
                     hit = pygame.sprite.collide_rect(bolinha1,a)
                     if hit == 1:
@@ -283,6 +283,7 @@ while game:
         if balas <= 0:
             background = mira_img
             background = perdeu
+            pygame.mixer.Sound.stop(tiro_som)
             window.blit(background, (0,0))
         
     # ----- Atualiza estado do jogo
