@@ -154,12 +154,7 @@ stick13 = stick(stick_img, 720, 450,2)
 stick14 =stick(stick_img, 420, 450,2)
 mira1 = mira(mira_img,0,0)
 bolinha1 = bolinha(bolinha_img,0,0)
-all_sticks = pygame.sprite.Group()
-groups = {}
-groups['all_sticks'] = all_sticks
-lista_stick = [stick1,stick2,stick3,stick4,stick5,stick6,stick7,stick8,stick9,stick10,stick11,stick12,stick13,stick14]
-for stick_ in lista_stick:
-    all_sticks.add(stick_)
+
 #Loop principal
 clock = pygame.time.Clock()
 FPS = 30
@@ -171,6 +166,12 @@ b = 0
 start =False
 while game:
     clock.tick(FPS)
+    if nivel ==1:
+        lista_stick = [stick1,stick2,stick3]
+    if nivel ==2:
+        lista_stick = [stick4,stick5,stick6,stick7,stick8]
+    if nivel == 3:
+        lista_stick = [stick9,stick10,stick11,stick12,stick13,stick14]
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
