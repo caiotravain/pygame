@@ -71,6 +71,8 @@ inicial_som = pygame.mixer.Sound('pygame/assets/sounds/start.mp3')
 pygame.mixer.Sound.set_volume(inicial_som,0.3)
 ganhou_som = pygame.mixer.Sound('pygame/assets/sounds/vitoria.mp3')
 pygame.mixer.Sound.set_volume(ganhou_som,0.3)
+jogo_som = pygame.mixer.Sound('pygame/assets/sounds/game.mp3')
+pygame.mixer.Sound.set_volume(jogo_som,0.1)
 
 class stick(pygame.sprite.Sprite):
     def __init__(self,img, x, y,nivel):
@@ -177,6 +179,8 @@ b = 0
 ja_tocou_perdeu = False
 ja_tocou_start = False
 ja_tocou_win = False
+ja_tocou_game = False
+jogo = False
 start = False
 lose = False
 win = False
@@ -226,6 +230,13 @@ while game:
         if win == True and not ja_tocou_win:
             ganhou_som.play(0)
             ja_tocou_win = True
+        if jogo == False and not ja_tocou_game and start == True:
+            jogo_som.play(-1)
+            ja_tocou_game = True
+        if jogo == True and ja_tocou_start:
+            jogo_som.stop()
+        
+            
 
         if event.type == KEYDOWN:
             start =True
@@ -321,12 +332,14 @@ while game:
             win = True
             balas = 1
             background = ganhou
+            jogo = True
             window.blit(background, (-20,0))
         if balas <= 0:
             background = mira_img
             background = perdeu
             pygame.mixer.Sound.stop(tiro_som)
             lose = True
+            jogo = True
             window.blit(background, (0,0))
         
     # ----- Atualiza estado do jogo
