@@ -1,3 +1,4 @@
+from sqlite3 import Time
 import pygame
 import random
 import time
@@ -27,6 +28,7 @@ fonte3 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 30)
 font_sys = pygame.font.SysFont(None, 30)
 texto = fonte2.render('Press Any Button to Start', True, (255, 255, 255))
 texto3 = fonte2.render('Score', True, (255, 255, 255))
+texto4 = fonte2.render('Time', True, (255, 255, 255))
 background = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
 background2 = pygame.image.load('pygame/assets/img/fase2.jpg').convert_alpha()
 background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
@@ -36,6 +38,7 @@ Sobre = pygame.image.load('pygame/assets/img/sobreposicao.png').convert_alpha()
 sobre = pygame.transform.scale(Sobre, (385, 430))
 score = pygame.image.load('pygame/assets/img/score.png').convert_alpha()
 score = pygame.transform.scale(score, (150,60))
+Time = pygame.transform.scale(score, (100,40))
 j1 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
 j1 = pygame.transform.scale(j1, (65, 60))
 j2 = pygame.image.load('pygame/assets/img/janela2.png').convert_alpha()
@@ -345,9 +348,10 @@ while game:
         window.blit(score, ((WIDTH/2) - 70,30))
         window.blit(pontos, ((WIDTH/2) - 40, 44))
         window.blit(texto3,((WIDTH/2) - 45, 5))
-        window.blit(tempo,(800, 5))
+        window.blit(Time, (820, 30))
+        window.blit(tempo,(845, 42))
+        window.blit(texto4,(830, 5))
         
-            
         
         if aparecer == True:
             window.blit(mira_img, (mira_X, mira_Y))
