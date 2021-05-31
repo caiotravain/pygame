@@ -13,7 +13,7 @@ pygame.init()
 WIDTH = 960
 HEIGHT = 540
 window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Mate o Stick')
+pygame.display.set_caption('Call of Stick')
 stick_largura = 30
 stick_altura = 60
 mira_largura = 2500
@@ -352,7 +352,7 @@ while game:
         window.blit(tempo,(845, 42))
         window.blit(texto4,(830, 5))
         
-        
+
         if aparecer == True:
             window.blit(mira_img, (mira_X, mira_Y))
             window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
