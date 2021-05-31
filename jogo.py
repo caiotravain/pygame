@@ -23,7 +23,9 @@ inicial = pygame.image.load('pygame/assets/img/tela_inicial.jpg').convert_alpha(
 inicial = pygame.transform.scale(inicial, (WIDTH, HEIGHT))
 fonte = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 40)
 fonte2 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 20)
+fonte3 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 30)
 texto = fonte2.render('Press Any Button to Start', True, (255, 255, 255))
+texto3 = fonte2.render('Score', True, (255, 255, 255))
 background = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
 background2 = pygame.image.load('pygame/assets/img/fase2.jpg').convert_alpha()
 background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
@@ -31,6 +33,8 @@ background3 = pygame.image.load('pygame/assets/img/fase3.jpg').convert_alpha()
 background3 = pygame.transform.scale(background3, (WIDTH, HEIGHT))
 Sobre = pygame.image.load('pygame/assets/img/sobreposicao.png').convert_alpha()
 sobre = pygame.transform.scale(Sobre, (385, 430))
+score = pygame.image.load('pygame/assets/img/score.png').convert_alpha()
+score = pygame.transform.scale(score, (150,60))
 j1 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
 j1 = pygame.transform.scale(j1, (65, 60))
 j2 = pygame.image.load('pygame/assets/img/janela2.png').convert_alpha()
@@ -176,6 +180,7 @@ abatido = 0
 nivel = 1
 t = 0
 b = 0
+pontuacao = 0 
 ja_tocou_perdeu = False
 ja_tocou_start = False
 ja_tocou_win = False
@@ -207,11 +212,17 @@ while game:
                 if start == True:
                     balas -=1
                     tiro_som.play()
+                    kill = 0
                     for a in lista_stick:
                         hit = pygame.sprite.collide_rect(bolinha1,a)
                         if hit == 1:
+                            kill += 1
                             a.update(0,0,2)
                             abatido += 1
+                            if kill == 2:
+                                pontuacao += 300
+                            else:
+                                pontuacao += 100
         if pygame.mouse.get_pressed()[2] and aparecer == False and not pygame.mouse.get_pressed()[0] :
             if event.type == pygame.MOUSEBUTTONDOWN:
                 aparecer = True
@@ -242,6 +253,7 @@ while game:
             start =True
             pygame.mouse.set_visible(False)
         text = fonte.render(str(balas), True, (255, 255, 255))
+        pontos = fonte3.render(str(pontuacao), True, (255, 255, 255))
     if abatido < 3:
         nivel=1
     elif abatido ==3 and t==0:
@@ -321,6 +333,11 @@ while game:
             window.blit(sobre, (280, 109))
             window.blit(bala_img, (20,455))
             window.blit(text, (55, 482))
+        window.blit(score, ((WIDTH/2) - 70,30))
+        window.blit(pontos, ((WIDTH/2) - 40, 44))
+        window.blit(texto3,((WIDTH/2) - 45, 5))
+        
+            
         
         if aparecer == True:
             window.blit(mira_img, (mira_X, mira_Y))
@@ -329,6 +346,8 @@ while game:
             window.blit(sniper_img, ((WIDTH/2)+50, HEIGHT-211))
         
         if abatido == 14:
+            if balas > 0 and not win:
+                pontuacao += balas*200
             win = True
             balas = 1
             background = ganhou
@@ -341,6 +360,7 @@ while game:
             lose = True
             jogo = True
             window.blit(background, (0,0))
+        
         
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
