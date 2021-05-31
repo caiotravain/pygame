@@ -24,6 +24,7 @@ inicial = pygame.transform.scale(inicial, (WIDTH, HEIGHT))
 fonte = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 40)
 fonte2 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 20)
 fonte3 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 30)
+font_sys = pygame.font.SysFont(None, 30)
 texto = fonte2.render('Press Any Button to Start', True, (255, 255, 255))
 texto3 = fonte2.render('Score', True, (255, 255, 255))
 background = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
@@ -180,7 +181,10 @@ abatido = 0
 nivel = 1
 t = 0
 b = 0
+inicio = time.time()
+fim = time.time()
 pontuacao = 0 
+contador = 0
 ja_tocou_perdeu = False
 ja_tocou_start = False
 ja_tocou_win = False
@@ -246,14 +250,19 @@ while game:
             ja_tocou_game = True
         if jogo == True and ja_tocou_start:
             jogo_som.stop()
-        
-            
+    
 
         if event.type == KEYDOWN:
             start =True
             pygame.mouse.set_visible(False)
         text = fonte.render(str(balas), True, (255, 255, 255))
         pontos = fonte3.render(str(pontuacao), True, (255, 255, 255))
+       
+    if start:
+        fim = time.time()
+        contador = fim - inicio
+        temporizador = '{:.2f}'.format(contador).replace('.',':')
+        tempo = font_sys.render(temporizador, True, (255, 255, 255)) 
     if abatido < 3:
         nivel=1
     elif abatido ==3 and t==0:
@@ -336,6 +345,7 @@ while game:
         window.blit(score, ((WIDTH/2) - 70,30))
         window.blit(pontos, ((WIDTH/2) - 40, 44))
         window.blit(texto3,((WIDTH/2) - 45, 5))
+        window.blit(tempo,(800, 5))
         
             
         
@@ -360,6 +370,7 @@ while game:
             lose = True
             jogo = True
             window.blit(background, (0,0))
+            
         
         
     # ----- Atualiza estado do jogo
