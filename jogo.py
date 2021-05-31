@@ -202,7 +202,7 @@ while game:
             if event.key == pygame.K_ESCAPE:
                 pygame.mouse.set_visible(True)
         if pygame.mouse.get_pressed()[0]:
-            if event.type == pygame.MOUSEBUTTONDOWN and aparecer == True:
+            if event.type == pygame.MOUSEBUTTONDOWN and aparecer == True and not pygame.mouse.get_pressed()[2] :
                 pygame.mouse.set_visible(False)
                 if start == True:
                     balas -=1
