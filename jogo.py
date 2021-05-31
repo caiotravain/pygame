@@ -212,7 +212,7 @@ while game:
                         if hit == 1:
                             a.update(0,0,2)
                             abatido += 1
-        if pygame.mouse.get_pressed()[2] and aparecer == False:
+        if pygame.mouse.get_pressed()[2] and aparecer == False and not pygame.mouse.get_pressed()[0] :
             if event.type == pygame.MOUSEBUTTONDOWN:
                 aparecer = True
         elif pygame.mouse.get_pressed()[2]:
