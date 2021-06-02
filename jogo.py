@@ -185,6 +185,7 @@ inicio = time.time()
 fim = time.time()
 pontuacao = 0 
 contador = 0
+tempo_final = 1
 ja_tocou_perdeu = False
 ja_tocou_start = False
 ja_tocou_win = False
@@ -259,10 +260,16 @@ while game:
         pontos = fonte3.render(str(pontuacao), True, (255, 255, 255))
        
     if start:
-        fim = time.time()
-        contador = fim - inicio
+        contador = 1
+        if int(tempo_final) == 0:
+            tempo_final = 1
+        if not lose and not win:
+            fim = time.time()
+            contador = fim - inicio
+            tempo_final = contador
         temporizador = '{:.2f}'.format(contador).replace('.',':')
         tempo = font_sys.render(temporizador, True, (255, 255, 255)) 
+        
     if abatido < 3:
         nivel=1
     elif abatido ==3 and t==0:
@@ -349,7 +356,11 @@ while game:
         window.blit(texto4,(815, 5))
         window.blit(tempo,(830, 37))
         
-        
+        ponto_certo = pontuacao/tempo_final
+        texto5 = fonte2.render(str(int(ponto_certo)), True, (255, 255, 255))
+        texto8 = fonte2.render(str(int(ponto_certo)), True, (0, 0, 0))
+        texto6 = fonte2.render('Points per sec', True, (0, 0, 0))
+        texto7 = fonte2.render('Points per sec', True, (255, 255, 255))
         if aparecer == True:
             window.blit(mira_img, (mira_X, mira_Y))
             window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
@@ -364,6 +375,8 @@ while game:
             background = ganhou
             jogo = True
             window.blit(background, (-20,0))
+            window.blit(texto6,(500, HEIGHT/2))
+            window.blit(texto8,(775, HEIGHT/2))
         if balas <= 0:
             background = mira_img
             background = perdeu
@@ -371,6 +384,8 @@ while game:
             lose = True
             jogo = True
             window.blit(background, (0,0))
+            window.blit(texto7,(10 , HEIGHT/2))
+            window.blit(texto5,(275,  HEIGHT/2))
             
         
         
