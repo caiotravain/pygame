@@ -10,7 +10,7 @@ pygame.init()
 WIDTH = 960
 HEIGHT = 540
 window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Mate o Stick')
+pygame.display.set_caption('Call of Stick')
 stick_largura = 30
 stick_altura = 60
 mira_largura = 2500
@@ -361,6 +361,7 @@ while game:
         texto8 = fonte2.render(str(int(ponto_certo)), True, (0, 0, 0))
         texto6 = fonte2.render('Points per sec', True, (0, 0, 0))
         texto7 = fonte2.render('Points per sec', True, (255, 255, 255))
+        
         if aparecer == True:
             window.blit(mira_img, (mira_X, mira_Y))
             window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
@@ -376,7 +377,8 @@ while game:
             jogo = True
             window.blit(background, (-20,0))
             window.blit(texto6,(500, HEIGHT/2))
-            window.blit(texto8,(775, HEIGHT/2))
+            window.blit(texto8,(800, HEIGHT/2))
+        
         if balas <= 0:
             background = mira_img
             background = perdeu
@@ -385,7 +387,7 @@ while game:
             jogo = True
             window.blit(background, (0,0))
             window.blit(texto7,(10 , HEIGHT/2))
-            window.blit(texto5,(275,  HEIGHT/2))
+            window.blit(texto5,(310,  HEIGHT/2))
             
         
         
