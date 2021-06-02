@@ -18,6 +18,8 @@ mira_largura = 2500
 mira_altura = 1500
 
 # ----- Inicia assets
+controle = pygame.image.load('pygame/assets/img/controles.png').convert_alpha()
+controle = pygame.transform.scale(controle, (WIDTH, HEIGHT))
 inicial = pygame.image.load('pygame/assets/img/tela_inicial.jpg').convert_alpha()
 inicial = pygame.transform.scale(inicial, (WIDTH, HEIGHT))
 fonte = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 40)
@@ -154,6 +156,7 @@ class bolinha(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 start = False
+inicia = False
 sim = True
 while sim:
     sim = False
@@ -254,7 +257,7 @@ while sim:
             if lose == True and not ja_tocou_perdeu:
                 perder_som.play(0)
                 ja_tocou_perdeu = True
-            if start == False and not ja_tocou_start:
+            if start == False and inicia and not ja_tocou_start:
                 inicial_som.play(0)
                 ja_tocou_start = True
             if start == True and ja_tocou_start:
@@ -267,10 +270,12 @@ while sim:
                 ja_tocou_game = True
             if jogo == True and ja_tocou_start:
                 jogo_som.stop()
-        
-
-            if event.type == KEYDOWN:
+            if event.type == KEYDOWN and inicia:
                 start =True
+            if event.type == KEYDOWN and not inicia:
+                if event.key == pygame.K_SPACE:
+                    inicia = True
+            
                 pygame.mouse.set_visible(False)
             text = fonte.render(str(balas), True, (255, 255, 255))
             pontos = fonte3.render(str(pontuacao), True, (255, 255, 255))
@@ -324,9 +329,12 @@ while sim:
             bolinha1.update(mouse_x_b,mouse_y_b)
         # ----- Gera saídas
         window.fill((0, 0, 0))
-        window.blit(inicial,(0,0))
-        window.blit(texto, ((WIDTH/4), 300))
-
+        if not inicia:
+            window.blit(controle,(0,0))
+        if inicia:
+            window.blit(inicial,(0,0))
+            window.blit(texto, ((WIDTH/4), 300))
+        
         if start:
             # Preenche com a cor branca
             window.blit(background, (0,0))
