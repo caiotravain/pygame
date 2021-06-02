@@ -1,10 +1,7 @@
 import pygame
-import random
 import time
 from pygame.locals import *
-from pyrsistent import b
-from pygame import mixer
-from sqlalchemy import true
+
 
 pygame.init()
 
@@ -347,7 +344,6 @@ while game:
         window.blit(texto3,((WIDTH/2) - 45, 5))
         window.blit(tempo,(800, 5))
         
-            
         
         if aparecer == True:
             window.blit(mira_img, (mira_X, mira_Y))
