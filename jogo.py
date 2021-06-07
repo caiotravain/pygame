@@ -2,167 +2,11 @@ from os import times
 import pygame
 import time
 from pygame.locals import *
+from assets import *
+from classes import *
 
-
-pygame.init()
-
-
-# ----- Gera tela principal
-WIDTH = 960
-HEIGHT = 540
-window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Call of Stick')
-stick_largura = 30
-stick_altura = 60
-mira_largura = 2500
-mira_altura = 1500
-
-# ----- Inicia assets
-controle = pygame.image.load('pygame/assets/img/controles.png').convert_alpha()
-controle = pygame.transform.scale(controle, (WIDTH, HEIGHT))
-inicial = pygame.image.load('pygame/assets/img/tela_inicial.jpg').convert_alpha()
-inicial = pygame.transform.scale(inicial, (WIDTH, HEIGHT))
-fonte = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 40)
-fonte2 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 20)
-fonte3 = pygame.font.Font("pygame/assets/fontes/8-bit.ttf", 30)
-font_sys = pygame.font.SysFont(None, 30)
-font_sys2 = pygame.font.SysFont(None, 50)
-texto = fonte2.render('Press Any Button to Start', True, (255, 255, 255))
-texto3 = fonte2.render('Score', True, (255, 255, 255))
-texto4 = fonte2.render('Time', True, (255, 255, 255))
-background1 = pygame.image.load('pygame/assets/img/fase1.jpg').convert_alpha()
-background2 = pygame.image.load('pygame/assets/img/fase2.jpg').convert_alpha()
-background2 = pygame.transform.scale(background2, (WIDTH, HEIGHT))
-background3 = pygame.image.load('pygame/assets/img/fase3.jpg').convert_alpha()
-background3 = pygame.transform.scale(background3, (WIDTH, HEIGHT))
-Sobre = pygame.image.load('pygame/assets/img/sobreposicao.png').convert_alpha()
-sobre = pygame.transform.scale(Sobre, (385, 430))
-score = pygame.image.load('pygame/assets/img/score.png').convert_alpha()
-score = pygame.transform.scale(score, (150,60))
-times = pygame.transform.scale(score, (120,30))
-j1 = pygame.image.load('pygame/assets/img/janela1.png').convert_alpha()
-j1 = pygame.transform.scale(j1, (65, 60))
-j2 = pygame.image.load('pygame/assets/img/janela2.png').convert_alpha()
-j2 = pygame.transform.scale(j2, (65, 60))
-j3 = pygame.image.load('pygame/assets/img/janela3.png').convert_alpha()
-j3 = pygame.transform.scale(j3, (27, 60))
-j4 = pygame.image.load('pygame/assets/img/janela4.png').convert_alpha()
-j4 = pygame.transform.scale(j4, (65, 60))
-j5 = pygame.image.load('pygame/assets/img/janela5.png').convert_alpha()
-j5 = pygame.transform.scale(j5, (29, 50))
-j6 = pygame.image.load('pygame/assets/img/janela6.png').convert_alpha()
-j6 = pygame.transform.scale(j6, (65, 60))
-j7 = pygame.image.load('pygame/assets/img/janela7.png').convert_alpha()
-j7 = pygame.transform.scale(j7, (65, 60))
-j8 = pygame.image.load('pygame/assets/img/janela8.png').convert_alpha()
-j8 = pygame.transform.scale(j8, (27, 60))
-j9 = pygame.image.load('pygame/assets/img/janela9.png').convert_alpha()
-j9 = pygame.transform.scale(j9, (65, 65))
-perdeu = pygame.image.load('pygame/assets/img/perdeu.png').convert_alpha()
-perdeu = pygame.transform.scale(perdeu, (WIDTH, HEIGHT))
-ganhou = pygame.image.load('pygame/assets/img/ganhou.png').convert_alpha()
-ganhou = pygame.transform.scale(ganhou, (WIDTH + 40, HEIGHT))
-stick_img = pygame.image.load('pygame/assets/img/stick_branco.png').convert_alpha()
-mira = pygame.image.load('pygame/assets/img/mira.png').convert_alpha()
-stick_img = pygame.transform.scale(stick_img, (stick_largura, stick_altura))
-mira_img = pygame.transform.scale(mira, (mira_largura, mira_altura))
-stick_inv = pygame.transform.flip(stick_img, True, False)
-bolinha = pygame.image.load('pygame/assets/img/bolinha.png').convert_alpha()
-bolinha_img = pygame.transform.scale(bolinha, (10, 10))
-bala_img = pygame.image.load('pygame/assets/img/Balas.png').convert_alpha()
-bala_img = pygame.transform.scale(bala_img, (150,100 ))
-sniper_img = pygame.image.load('pygame/assets/img/sniper(balista).png').convert_alpha()
-sniper_img = pygame.transform.scale(sniper_img, (300, 211))
-tiro_som = pygame.mixer.Sound('pygame/assets/sounds/tiro.mp3')
-perder_som = pygame.mixer.Sound('pygame/assets/sounds/derrota.mp3')
-pygame.mixer.Sound.set_volume(perder_som,0.3)
-inicial_som = pygame.mixer.Sound('pygame/assets/sounds/start.mp3')
-pygame.mixer.Sound.set_volume(inicial_som,0.3)
-ganhou_som = pygame.mixer.Sound('pygame/assets/sounds/vitoria.mp3')
-pygame.mixer.Sound.set_volume(ganhou_som,0.3)
-jogo_som = pygame.mixer.Sound('pygame/assets/sounds/game.mp3')
-pygame.mixer.Sound.set_volume(jogo_som,0.1)
-
-class stick(pygame.sprite.Sprite):
-    def __init__(self,img, x, y,nivel):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.speedy = (0)
-        if nivel == 1:
-            self.speedx = (1.5)
-        elif nivel == 2:
-            self.speedx = (3)
-
-    def update(self, x_min, x_max,a):
-        # Atualizando a posição do stick
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
-        if nivel == 1:
-            if a == 2:
-                self.rect.x = 10000
-                self.speedx = 0
-            if self.rect.x >= x_max:
-                self.speedx = (-1) 
-                self.image = stick_inv           
-            if self.rect.x <= x_min:
-                self.speedx = (1.5)
-                self.image = stick_img
-        if nivel == 2:
-            if a == 2:
-                self.rect.x = 10000
-                self.speedx = 0
-            if self.rect.x >= x_max:
-                self.speedx = (-2.5) 
-                self.image = stick_inv           
-            if self.rect.x <= x_min:
-                self.speedx = (3)
-                self.image = stick_img
-        if nivel == 3:
-            if a == 2:
-                self.rect.x = 10000
-                self.speedx = 0
-            if self.rect.x >= x_max:
-                self.speedx = (-2.5) 
-                self.image = stick_inv           
-            if self.rect.x <= x_min:
-                self.speedx = (3)
-                self.image = stick_img
-
-class mira(pygame.sprite.Sprite):
-    def __init__(self, img, x, y):
-        # Construtor da classe mãe (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-    def update(self,x,y):
-        # Atualizando a posição do stick
-        self.rect.x = x
-        self.rect.y = y
-class bolinha(pygame.sprite.Sprite):
-    def __init__(self, img, x, y):
-        # Construtor da classe mãe (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        self.image = img
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-    def update(self,x,y):
-        # Atualizando a posição do stick
-        self.rect.x = x
-        self.rect.y = y
-start = False
-inicia = False
-sim = True
 while sim:
     sim = False
-    
-       
-
     #Criando Sticks
     balas = 3
     text = fonte.render(str(balas), True, (255, 255, 255))
@@ -180,10 +24,11 @@ while sim:
     stick12 = stick(stick_img, 500 ,316,2)
     stick13 = stick(stick_img, 720, 450,2)
     stick14 =stick(stick_img, 420, 450,2)
-    mira1 = mira(mira_img,0,0)
-    bolinha1 = bolinha(bolinha_img,0,0)
+    mira1 = mira2(mira_img,0,0)
+    bolinha1 = bolinha2(bolinha_img,0,0)
 
     #Loop principal
+
     clock = pygame.time.Clock()
     FPS = 30
     game = True
