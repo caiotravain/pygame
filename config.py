@@ -1,5 +1,4 @@
-import pygame
-import time
+
 stick_largura = 30
 stick_altura = 60
 mira_largura = 2500
