@@ -12,5 +12,4 @@
                 - Botão s para jogar novamente
 
 **Vídeo do jogo:**
-
-![image](https://user-images.githubusercontent.com/81189640/118553901-4abe4580-b737-11eb-9a5f-b078bb078bf3.png)
+https://youtu.be/AsOW3Qzrmo4
