@@ -5,7 +5,7 @@ from pygame.locals import *
 from assets import *
 from classes import *
 
-while sim:
+while sim: #Loop de recomecar o jgo
     sim = False
     #Criando Sticks
     balas = 3
@@ -25,7 +25,7 @@ while sim:
     stick13 = stick(stick_img, 720, 450,2)
     stick14 =stick(stick_img, 420, 450,2)
     mira1 = mira2(mira_img,0,0)
-    bolinha1 = bolinha2(bolinha_img,0,0)
+    bolinha1 = bolinha2(bolinha_img,0,0) #a bolinha de colisao com stciks
 
     #Loop principal
 
@@ -41,44 +41,44 @@ while sim:
     pontuacao = 0 
     contador = 0
     tempo_final = 1
-    ja_tocou_perdeu = False
-    ja_tocou_start = False
-    ja_tocou_win = False
-    ja_tocou_game = False
-    ja_iniciou = False
-    jogo = False
-    lose = False
-    win = False
-    aparecer = False
-    while game:
+    ja_tocou_perdeu = False #Ja tocou a musica de perder
+    ja_tocou_start = False #Ja tocou a musica de comeco
+    ja_tocou_win = False #Ja tocou a musica de ganhar
+    ja_tocou_game = False #Ja tocou a musica do jogo
+    ja_iniciou = False #Ja tocou a musica de incio 
+    jogo = False #comecou o jogo
+    lose = False #perdeu
+    win = False #ganhou
+    aparecer = False #é para aparecer
+    while game: #comeca o jogo
         if start == True and ja_iniciou == False:
             inicio = time.time()
             ja_iniciou = True
         clock.tick(FPS)
         if nivel ==1:
-            lista_stick = [stick1,stick2,stick3]
+            lista_stick = [stick1,stick2,stick3] #Lista de stick da fase 1
         if nivel ==2:
-            lista_stick = [stick4,stick5,stick6,stick7,stick8]
+            lista_stick = [stick4,stick5,stick6,stick7,stick8] #Lista de stick da fase 2
         if nivel == 3:
-            lista_stick = [stick9,stick10,stick11,stick12,stick13,stick14]
+            lista_stick = [stick9,stick10,stick11,stick12,stick13,stick14] #Lista de stick da fase 3
         # ----- Trata eventos
         for event in pygame.event.get():
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 game = False
-            if event.type == pygame.KEYUP:
+            if event.type == pygame.KEYUP: #se quiser jogar denovo
                 if event.key == pygame.K_s and (win or lose):
                     sim = True
                     game = False
                     pygame.mixer.quit()
                     pygame.mixer.init()
                     start = True
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE: #aparecer o mouse
                     pygame.mouse.set_visible(True)
-            if pygame.mouse.get_pressed()[0]:
+            if pygame.mouse.get_pressed()[0]: #clicar o mouse
                 if event.type == pygame.MOUSEBUTTONDOWN and aparecer == True and not pygame.mouse.get_pressed()[2] :
                     pygame.mouse.set_visible(False)
-                    if start == True:
+                    if start == True: #comeca as funcoes do jogo
                         balas -=1
                         tiro_som.play()
                         kill = 0
@@ -88,17 +88,17 @@ while sim:
                                 kill += 1
                                 a.update(0,0,2)
                                 abatido += 1
-                                if kill == 2:
+                                if kill == 2: #Considera collateral
                                     pontuacao += 300
                                 else:
                                     pontuacao += 100
             if pygame.mouse.get_pressed()[2] and aparecer == False and not pygame.mouse.get_pressed()[0] :
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN:#Aparecer a mira
                     aparecer = True
-            elif pygame.mouse.get_pressed()[2]:
+            elif pygame.mouse.get_pressed()[2]: #sumir a mira
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     aparecer = False
-
+#Tocar sons
             if lose == True and not ja_tocou_perdeu:
                 perder_som.play(0)
                 ja_tocou_perdeu = True
@@ -124,7 +124,7 @@ while sim:
                 pygame.mouse.set_visible(False)
             text = fonte.render(str(balas), True, (255, 255, 255))
             pontos = fonte3.render(str(pontuacao), True, (255, 255, 255))
-        
+        #contador de tempo
         if start:
             contador = 1
             if int(tempo_final) == 0:
@@ -135,7 +135,7 @@ while sim:
                 tempo_final = contador
             temporizador = '{:.2f}'.format(contador).replace('.',':')
             tempo = font_sys.render(temporizador, True, (255, 255, 255)) 
-            
+        #mudanca de niveis  
         if abatido < 3:
             background = background1
             nivel=1
@@ -239,7 +239,7 @@ while sim:
                 window.blit(bolinha_img, (mouse_x_b, mouse_y_b))
             elif aparecer == False:
                 window.blit(sniper_img, ((WIDTH/2)+50, HEIGHT-211))
-            
+            #ganhar
             if abatido == 14:
                 if balas > 0 and not win:
                     pontuacao += balas*200
@@ -252,7 +252,7 @@ while sim:
                 window.blit(texto8,(800, HEIGHT/2))
                 window.blit(texto10,(300,450))
                 
-            
+            #perder
             if balas <= 0:
                 background = mira_img
                 background = perdeu
