@@ -34,8 +34,8 @@ while sim: #Loop de recomecar o jgo
     game = True
     abatido = 0
     nivel = 1
-    t = 0
-    b = 0
+
+    troca =0 
     inicio = 0
     fim = time.time()
     pontuacao = 0 
@@ -82,11 +82,11 @@ while sim: #Loop de recomecar o jgo
                         balas -=1
                         tiro_som.play()
                         kill = 0
-                        for a in lista_stick:
-                            hit = pygame.sprite.collide_rect(bolinha1,a)
+                        for stick_l in lista_stick:
+                            hit = pygame.sprite.collide_rect(bolinha1,stick_l)
                             if hit == 1:
                                 kill += 1
-                                a.update(0,0,2)
+                                stick_l.update(0,0,True)
                                 abatido += 1
                                 if kill == 2: #Considera collateral
                                     pontuacao += 300
@@ -139,36 +139,36 @@ while sim: #Loop de recomecar o jgo
         if abatido < 3:
             background = background1
             nivel=1
-        elif abatido ==3 and t==0:
+        elif abatido ==3 and troca==0:
             nivel = 2
             balas = 5 
-            t += 1
-        elif abatido == 8 and b==0:
+            troca += 1
+        elif abatido == 8 and troca>=1:
             nivel = 3
             balas = 6 
-            b += 1
+            troca +=1
         mousePos = pygame.mouse.get_pos()
         mouse_x_b = pygame.mouse.get_pos()[0]-5
         mouse_y_b= pygame.mouse.get_pos()[1]-5
         mira_X = pygame.mouse.get_pos()[0] - 1245
         mira_Y = pygame.mouse.get_pos()[1] - 715
         if nivel ==1:
-            stick1.update(150, 450,3)
-            stick2.update(0, 110,3)
-            stick3.update(850,960 - stick_largura,3)
+            stick1.update(150, 450,False)
+            stick2.update(0, 110,False)
+            stick3.update(850,960 - stick_largura,False)
         if nivel==2:
-            stick4.update(170,280,3)
-            stick5.update(445,560,3)
-            stick6.update(675,795,3)
-            stick7.update(75,150,3)
-            stick8.update(310,360,3)
+            stick4.update(170,280,False)
+            stick5.update(445,560,False)
+            stick6.update(675,795,False)
+            stick7.update(75,150,False)
+            stick8.update(310,360,False)
         if nivel == 3:
-            stick9.update(180,725,3)
-            stick10.update(180,725,3)
-            stick11.update(180,725,3)
-            stick12.update(180,725,3)
-            stick13.update(180,725,3)
-            stick14.update(180,725,3)
+            stick9.update(180,725,False)
+            stick10.update(180,725,False)
+            stick11.update(180,725,False)
+            stick12.update(180,725,False)
+            stick13.update(180,725,False)
+            stick14.update(180,725,False)
         if aparecer == True:
             mira1.update(mira_X,mira_Y)
             bolinha1.update(mouse_x_b,mouse_y_b)
@@ -227,12 +227,12 @@ while sim: #Loop de recomecar o jgo
             window.blit(tempo,(830, 37))
             
             ponto_certo = pontuacao/tempo_final
-            texto5 = fonte2.render(str(int(ponto_certo)), True, (255, 255, 255))
-            texto8 = fonte2.render(str(int(ponto_certo)), True, (0, 0, 0))
-            texto6 = fonte2.render('Points per sec', True, (0, 0, 0))
-            texto7 = fonte2.render('Points per sec', True, (255, 255, 255))
-            texto9 = font_sys2.render('To play again press "s"',True,(255,255,255))
-            texto10 = font_sys2.render('To play again press "s"',True,(0,0,0))
+            ponto_der_txt = fonte2.render(str(int(ponto_certo)), True, (255, 255, 255))
+            ponto_vic_txt = fonte2.render(str(int(ponto_certo)), True, (0, 0, 0))
+            points_vic_sec = fonte2.render('Points per sec', True, (0, 0, 0))
+            points_der_sec = fonte2.render('Points per sec', True, (255, 255, 255))
+            play_again_vic = font_sys2.render('To play again press "s"',True,(255,255,255))
+            play_again_vic = font_sys2.render('To play again press "s"',True,(0,0,0))
             
             if aparecer == True:
                 window.blit(mira_img, (mira_X, mira_Y))
@@ -248,9 +248,9 @@ while sim: #Loop de recomecar o jgo
                 background = ganhou
                 jogo = True
                 window.blit(background, (-20,0))
-                window.blit(texto6,(500, HEIGHT/2))
-                window.blit(texto8,(800, HEIGHT/2))
-                window.blit(texto10,(300,450))
+                window.blit(points_vic_sec,(500, HEIGHT/2))
+                window.blit(ponto_vic_txt,(800, HEIGHT/2))
+                window.blit(play_again_vic,(300,450))
                 
             #perder
             if balas <= 0:
@@ -260,9 +260,9 @@ while sim: #Loop de recomecar o jgo
                 lose = True
                 jogo = True
                 window.blit(background, (0,0))
-                window.blit(texto7,(10 , HEIGHT/2))
-                window.blit(texto5,(310,  HEIGHT/2))
-                window.blit(texto9,(300,450))
+                window.blit(points_der_sec,(10 , HEIGHT/2))
+                window.blit(ponto_der_txt,(310,  HEIGHT/2))
+                window.blit(play_again_vic,(300,450))
                 
             
             
