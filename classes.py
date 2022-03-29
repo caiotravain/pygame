@@ -1,6 +1,7 @@
 import pygame
 from config import *
 from assets import *
+end = 10000
 class stick(pygame.sprite.Sprite):
     def __init__(self,img, x, y,nivel):
         pygame.sprite.Sprite.__init__(self)
@@ -15,13 +16,13 @@ class stick(pygame.sprite.Sprite):
         elif nivel == 2:
             self.speedx = (3)
 
-    def update(self, x_min, x_max,a):
+    def update(self, x_min, x_max,morto):
         # Atualizando a posição do stick
         self.rect.x += self.speedx
         self.rect.y += self.speedy
         if self.nivel == 1:
-            if a == 2:
-                self.rect.x = 10000
+            if morto == True:
+                self.rect.x = end
                 self.speedx = 0
             if self.rect.x >= x_max:
                 self.speedx = (-1) 
@@ -30,8 +31,8 @@ class stick(pygame.sprite.Sprite):
                 self.speedx = (1.5)
                 self.image = stick_img
         if self.nivel == 2:
-            if a == 2:
-                self.rect.x = 10000
+            if morto == True:
+                self.rect.x = end
                 self.speedx = 0
             if self.rect.x >= x_max:
                 self.speedx = (-2.5) 
@@ -40,8 +41,8 @@ class stick(pygame.sprite.Sprite):
                 self.speedx = (3)
                 self.image = stick_img
         if self.nivel == 3:
-            if a == 2:
-                self.rect.x = 10000
+            if morto == True:
+                self.rect.x = end
                 self.speedx = 0
             if self.rect.x >= x_max:
                 self.speedx = (-2.5) 
